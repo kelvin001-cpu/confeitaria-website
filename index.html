@@ -3,398 +3,491 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conect Cakes - Confeitaria Premium</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Conect Cakes - Confeitaria Premium Ultra</title>
+    <link rel="stylesheet" href="styles-ultra.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- HEADER/NAVBAR -->
-    <header class="navbar">
+    <!-- CURSOR CUSTOMIZADO -->
+    <div class="cursor"></div>
+    <div class="cursor-blur"></div>
+
+    <!-- HEADER ÉPICO -->
+    <header class="navbar-ultra">
         <div class="container">
             <div class="navbar-content">
-                <div class="logo">
-                    <i class="fas fa-cake-candles"></i>
+                <div class="logo-3d">
+                    <div class="logo-box">
+                        <i class="fas fa-cake-candles"></i>
+                    </div>
                     <span>Conect Cakes</span>
                 </div>
-                <nav class="nav-menu">
-                    <a href="#inicio">Início</a>
-                    <a href="#produtos">Produtos</a>
-                    <a href="#cardapio">Cardápio</a>
-                    <a href="#depoimentos">Depoimentos</a>
-                    <a href="#contato">Contato</a>
+                <nav class="nav-menu-ultra">
+                    <a href="#inicio" class="nav-link">
+                        <span>Início</span>
+                        <div class="underline"></div>
+                    </a>
+                    <a href="#produtos" class="nav-link">
+                        <span>Produtos</span>
+                        <div class="underline"></div>
+                    </a>
+                    <a href="#cardapio" class="nav-link">
+                        <span>Cardápio</span>
+                        <div class="underline"></div>
+                    </a>
+                    <a href="#experiencia" class="nav-link">
+                        <span>Experiência</span>
+                        <div class="underline"></div>
+                    </a>
+                    <a href="#contato" class="nav-link">
+                        <span>Contato</span>
+                        <div class="underline"></div>
+                    </a>
                 </nav>
                 <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section id="inicio" class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Conect Cakes</h1>
-            <p class="hero-subtitle">Bolos e Confeitaria Premium para Seus Momentos Especiais</p>
-            <button class="btn btn-primary">Faça Seu Pedido Agora</button>
+    <!-- HERO 3D ÉPICO -->
+    <section id="inicio" class="hero-ultra">
+        <div class="hero-background-ultra">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <canvas id="canvas-hero"></canvas>
         </div>
-        <div class="hero-background"></div>
+        
+        <div class="hero-content-ultra">
+            <div class="hero-text">
+                <h1 class="title-glitch" data-text="Conect Cakes">
+                    Conect Cakes
+                </h1>
+                <p class="subtitle-animated">
+                    <span class="word"><span class="letter">B</span><span class="letter">o</span><span class="letter">l</span><span class="letter">o</span><span class="letter">s</span></span>
+                    <span class="word"><span class="letter">A</span><span class="letter">r</span><span class="letter">t</span><span class="letter">e</span><span class="letter">s</span><span class="letter">a</span><span class="letter">n</span><span class="letter">a</span><span class="letter">i</span><span class="letter">s</span></span>
+                    <span class="word"><span class="letter">Q</span><span class="letter">u</span><span class="letter">e</span></span>
+                    <span class="word"><span class="letter">T</span><span class="letter">r</span><span class="letter">a</span><span class="letter">n</span><span class="letter">s</span><span class="letter">f</span><span class="letter">o</span><span class="letter">r</span><span class="letter">m</span><span class="letter">a</span><span class="letter">m</span></span>
+                </p>
+            </div>
+            
+            <div class="cta-button-group">
+                <button class="cta-button glowing-btn">
+                    <span>Explorar Agora</span>
+                    <div class="button-glow"></div>
+                </button>
+                <button class="cta-button secondary-btn">
+                    <span>Ver Portfólio</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="scroll-indicator">
+                <div class="mouse"></div>
+                <span>Deslize para explorar</span>
+            </div>
+        </div>
+
+        <div class="floating-cards">
+            <div class="floating-card" style="--delay: 0s">
+                <span>🍰</span>
+                <p>Premium</p>
+            </div>
+            <div class="floating-card" style="--delay: 0.3s">
+                <span>✨</span>
+                <p>Artesanal</p>
+            </div>
+            <div class="floating-card" style="--delay: 0.6s">
+                <span>🎂</span>
+                <p>Gourmet</p>
+            </div>
+        </div>
     </section>
 
-    <!-- SEÇÃO SOBRE -->
-    <section class="about">
+    <!-- DIVISOR ÉPICO -->
+    <div class="epic-divider">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#FF69B4;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#FF1493;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <path d="M0,50 Q300,0 600,50 T1200,50 L1200,120 L0,120 Z" fill="url(#grad1)"></path>
+        </svg>
+    </div>
+
+    <!-- SEÇÃO STATS 3D -->
+    <section class="stats-3d">
         <div class="container">
-            <h2 class="section-title">Sobre Conect Cakes</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>Somos uma confeitaria especializada em bolos artesanais feitos com ingredientes premium. Desde 2020, conectamos sabor, arte e emoção em cada criação.</p>
-                    <p>Nossos confeiteiros trabalham com dedicação para garantir que cada bolo seja uma experiência memorável.</p>
+            <div class="stats-grid">
+                <div class="stat-3d-card" data-number="500">
+                    <div class="stat-number">500<span>+</span></div>
+                    <p>Bolos Criados</p>
+                    <div class="card-glow"></div>
                 </div>
-                <div class="about-stats">
-                    <div class="stat-card">
-                        <h3>500+</h3>
-                        <p>Bolos Vendidos</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>98%</h3>
-                        <p>Satisfação</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>24h</h3>
-                        <p>Entrega</p>
-                    </div>
+                <div class="stat-3d-card" data-number="98">
+                    <div class="stat-number">98<span>%</span></div>
+                    <p>Satisfação</p>
+                    <div class="card-glow"></div>
+                </div>
+                <div class="stat-3d-card" data-number="24">
+                    <div class="stat-number">24<span>h</span></div>
+                    <p>Entrega Rápida</p>
+                    <div class="card-glow"></div>
+                </div>
+                <div class="stat-3d-card" data-number="4.9">
+                    <div class="stat-number">4.9<span>⭐</span></div>
+                    <p>Avaliação</p>
+                    <div class="card-glow"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PRODUTOS/GALERIA -->
-    <section id="produtos" class="produtos">
+    <!-- SEÇÃO PRODUTOS 3D -->
+    <section id="produtos" class="produtos-3d">
         <div class="container">
-            <h2 class="section-title">Nossos Destaques</h2>
-            <div class="produtos-grid">
-                <div class="produto-card">
-                    <div class="produto-image">
-                        <img src="https://via.placeholder.com/300x300/FF69B4/FFFFFF?text=Chocolate" alt="Bolo Chocolate">
-                        <span class="badge">Popular</span>
+            <h2 class="section-title-ultra">
+                <span class="title-blur">Nossos Destaques</span>
+                <span class="title-main">Nossos Destaques</span>
+            </h2>
+            
+            <div class="produtos-carousel-3d">
+                <div class="carousel-container">
+                    <div class="produto-3d-card" data-id="1">
+                        <div class="card-inner">
+                            <div class="card-image">
+                                <img src="https://via.placeholder.com/400x400/FF69B4/FFFFFF?text=Chocolate" alt="Chocolate">
+                                <div class="image-overlay"></div>
+                            </div>
+                            <div class="card-content">
+                                <span class="badge-premium">⭐ POPULAR</span>
+                                <h3>Bolo Chocolate Gourmet</h3>
+                                <p>Chocolate belga 70% com ganache cremosa</p>
+                                <div class="price-section">
+                                    <span class="price">R$ 89,90</span>
+                                    <button class="btn-add-cart">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="produto-info">
-                        <h3>Bolo Chocolate Gourmet</h3>
-                        <p>Chocolate belga com ganache cremosa</p>
-                        <p class="preco">R$ 89,90</p>
-                        <button class="btn btn-secondary">Adicionar</button>
+
+                    <div class="produto-3d-card" data-id="2">
+                        <div class="card-inner">
+                            <div class="card-image">
+                                <img src="https://via.placeholder.com/400x400/FFB6C1/FFFFFF?text=Morango" alt="Morango">
+                                <div class="image-overlay"></div>
+                            </div>
+                            <div class="card-content">
+                                <span class="badge-new">✨ NOVO</span>
+                                <h3>Bolo Morango Deluxe</h3>
+                                <p>Morangos frescos com chantilly artesanal</p>
+                                <div class="price-section">
+                                    <span class="price">R$ 75,90</span>
+                                    <button class="btn-add-cart">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="produto-3d-card" data-id="3">
+                        <div class="card-inner">
+                            <div class="card-image">
+                                <img src="https://via.placeholder.com/400x400/DDA0DD/FFFFFF?text=Pistache" alt="Pistache">
+                                <div class="image-overlay"></div>
+                            </div>
+                            <div class="card-content">
+                                <span class="badge-special">🔥 ESPECIAL</span>
+                                <h3>Bolo Pistache Elegante</h3>
+                                <p>Pistache siciliano com calda de caramelo</p>
+                                <div class="price-section">
+                                    <span class="price">R$ 95,90</span>
+                                    <button class="btn-add-cart">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="produto-3d-card" data-id="4">
+                        <div class="card-inner">
+                            <div class="card-image">
+                                <img src="https://via.placeholder.com/400x400/CD853F/FFFFFF?text=Cafe" alt="Café">
+                                <div class="image-overlay"></div>
+                            </div>
+                            <div class="card-content">
+                                <span class="badge-premium">☕ REQUINTADO</span>
+                                <h3>Bolo Café Expresso</h3>
+                                <p>Café gourmet com calda de caramelo</p>
+                                <div class="price-section">
+                                    <span class="price">R$ 79,90</span>
+                                    <button class="btn-add-cart">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="produto-card">
-                    <div class="produto-image">
-                        <img src="https://via.placeholder.com/300x300/FFB6C1/FFFFFF?text=Morango" alt="Bolo Morango">
-                        <span class="badge">Novo</span>
+                <button class="carousel-nav prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-nav next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO EXPERIÊNCIA -->
+    <section id="experiencia" class="experiencia-section">
+        <div class="container">
+            <h2 class="section-title-ultra">
+                <span class="title-blur">Experiência Única</span>
+                <span class="title-main">Experiência Única</span>
+            </h2>
+
+            <div class="experiencia-grid">
+                <div class="exp-card">
+                    <div class="exp-icon">
+                        <i class="fas fa-wand-magic-sparkles"></i>
                     </div>
-                    <div class="produto-info">
-                        <h3>Bolo Morango Deluxe</h3>
-                        <p>Morangos frescos com chantilly artesanal</p>
-                        <p class="preco">R$ 75,90</p>
-                        <button class="btn btn-secondary">Adicionar</button>
-                    </div>
+                    <h3>Criação Artesanal</h3>
+                    <p>Cada bolo é uma obra de arte criada com ingredientes premium e amor pelo detalhe.</p>
                 </div>
 
-                <div class="produto-card">
-                    <div class="produto-image">
-                        <img src="https://via.placeholder.com/300x300/FFD700/FFFFFF?text=Cenoura" alt="Bolo Cenoura">
-                        <span class="badge">Clássico</span>
+                <div class="exp-card">
+                    <div class="exp-icon">
+                        <i class="fas fa-truck-fast"></i>
                     </div>
-                    <div class="produto-info">
-                        <h3>Bolo Cenoura Premium</h3>
-                        <p>Tradicional com cobertura de chocolate</p>
-                        <p class="preco">R$ 59,90</p>
-                        <button class="btn btn-secondary">Adicionar</button>
-                    </div>
+                    <h3>Entrega Express</h3>
+                    <p>Entrega em 24 horas com embalagem especial para manter a qualidade perfeita.</p>
                 </div>
 
-                <div class="produto-card">
-                    <div class="produto-image">
-                        <img src="https://via.placeholder.com/300x300/DDA0DD/FFFFFF?text=Pistache" alt="Bolo Pistache">
-                        <span class="badge">Especial</span>
+                <div class="exp-card">
+                    <div class="exp-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <div class="produto-info">
-                        <h3>Bolo Pistache Elegante</h3>
-                        <p>Pistache siciliano com calda de caramelo</p>
-                        <p class="preco">R$ 95,90</p>
-                        <button class="btn btn-secondary">Adicionar</button>
-                    </div>
+                    <h3>Atendimento Premium</h3>
+                    <p>Equipe dedicada 24/7 para ajudar na escolha perfeita do seu bolo.</p>
                 </div>
 
-                <div class="produto-card">
-                    <div class="produto-image">
-                        <img src="https://via.placeholder.com/300x300/F0E68C/FFFFFF?text=Limao" alt="Bolo Limão">
-                        <span class="badge">Refrescante</span>
+                <div class="exp-card">
+                    <div class="exp-icon">
+                        <i class="fas fa-palette"></i>
                     </div>
-                    <div class="produto-info">
-                        <h3>Bolo Limão Siciliano</h3>
-                        <p>Limão fresco com calda citronada</p>
-                        <p class="preco">R$ 65,90</p>
-                        <button class="btn btn-secondary">Adicionar</button>
-                    </div>
-                </div>
-
-                <div class="produto-card">
-                    <div class="produto-image">
-                        <img src="https://via.placeholder.com/300x300/CD853F/FFFFFF?text=Cafe" alt="Bolo Café">
-                        <span class="badge">Requintado</span>
-                    </div>
-                    <div class="produto-info">
-                        <h3>Bolo Café Expresso</h3>
-                        <p>Café gourmet com calda de caramelo</p>
-                        <p class="preco">R$ 79,90</p>
-                        <button class="btn btn-secondary">Adicionar</button>
-                    </div>
+                    <h3>Personalização Total</h3>
+                    <p>Customize cores, sabores e decorações conforme sua imaginação.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CARDÁPIO -->
-    <section id="cardapio" class="cardapio">
+    <!-- SEÇÃO CARDÁPIO INTERATIVO -->
+    <section id="cardapio" class="cardapio-ultra">
         <div class="container">
-            <h2 class="section-title">Cardápio Completo</h2>
-            <div class="menu-tabs">
-                <button class="tab-btn active" data-tab="bolos">Bolos</button>
-                <button class="tab-btn" data-tab="cupcakes">Cupcakes</button>
-                <button class="tab-btn" data-tab="sobremesas">Sobremesas</button>
-                <button class="tab-btn" data-tab="personalizados">Personalizados</button>
+            <h2 class="section-title-ultra">
+                <span class="title-blur">Cardápio Premium</span>
+                <span class="title-main">Cardápio Premium</span>
+            </h2>
+
+            <div class="menu-tabs-ultra">
+                <button class="tab-btn-ultra active" data-tab="bolos">🍰 Bolos</button>
+                <button class="tab-btn-ultra" data-tab="cupcakes">🧁 Cupcakes</button>
+                <button class="tab-btn-ultra" data-tab="sobremesas">🍫 Sobremesas</button>
+                <button class="tab-btn-ultra" data-tab="personalizados">🎨 Personalizados</button>
             </div>
-            <div class="menu-content">
-                <div class="tab-content active" id="bolos">
-                    <div class="menu-item">
-                        <div class="menu-item-header">
-                            <h4>Bolo Chocolate Gourmet</h4>
-                            <span class="menu-preco">R$ 89,90</span>
+
+            <div class="menu-items-container">
+                <!-- BOLOS -->
+                <div class="menu-tab-content active" id="bolos">
+                    <div class="menu-item-ultra">
+                        <div class="item-icon">🍫</div>
+                        <div class="item-text">
+                            <h4>Chocolate Gourmet</h4>
+                            <p>Chocolate belga 70% com ganache cremosa</p>
                         </div>
-                        <p>Chocolate belga 70% com ganache cremosa e recheio de calda de chocolate</p>
+                        <div class="item-price">R$ 89,90</div>
                     </div>
-                    <div class="menu-item">
-                        <div class="menu-item-header">
-                            <h4>Bolo Morango Deluxe</h4>
-                            <span class="menu-preco">R$ 75,90</span>
+
+                    <div class="menu-item-ultra">
+                        <div class="item-icon">🍓</div>
+                        <div class="item-text">
+                            <h4>Morango Deluxe</h4>
+                            <p>Morangos frescos com chantilly artesanal</p>
                         </div>
-                        <p>Morangos frescos com chantilly artesanal e calda de morango</p>
+                        <div class="item-price">R$ 75,90</div>
                     </div>
-                    <div class="menu-item">
-                        <div class="menu-item-header">
-                            <h4>Bolo Cenoura Premium</h4>
-                            <span class="menu-preco">R$ 59,90</span>
+
+                    <div class="menu-item-ultra">
+                        <div class="item-icon">☕</div>
+                        <div class="item-text">
+                            <h4>Café Expresso</h4>
+                            <p>Café gourmet com calda de caramelo</p>
                         </div>
-                        <p>Tradicional com cobertura de chocolate e recheio cremoso</p>
+                        <div class="item-price">R$ 79,90</div>
                     </div>
                 </div>
 
-                <div class="tab-content" id="cupcakes">
-                    <div class="menu-item">
-                        <div class="menu-item-header">
+                <!-- CUPCAKES -->
+                <div class="menu-tab-content" id="cupcakes">
+                    <div class="menu-item-ultra">
+                        <div class="item-icon">🍫</div>
+                        <div class="item-text">
                             <h4>Cupcake Chocolate</h4>
-                            <span class="menu-preco">R$ 12,90</span>
+                            <p>Chocolate com ganache e confeitos</p>
                         </div>
-                        <p>Chocolate com cobertura de ganache e confeitos</p>
+                        <div class="item-price">R$ 12,90</div>
                     </div>
-                    <div class="menu-item">
-                        <div class="menu-item-header">
+
+                    <div class="menu-item-ultra">
+                        <div class="item-icon">🍨</div>
+                        <div class="item-text">
                             <h4>Cupcake Vanilla</h4>
-                            <span class="menu-preco">R$ 11,90</span>
+                            <p>Vanilla com cream cheese artesanal</p>
                         </div>
-                        <p>Vanilla gourmet com cobertura de cream cheese</p>
+                        <div class="item-price">R$ 11,90</div>
                     </div>
                 </div>
 
-                <div class="tab-content" id="sobremesas">
-                    <div class="menu-item">
-                        <div class="menu-item-header">
+                <!-- SOBREMESAS -->
+                <div class="menu-tab-content" id="sobremesas">
+                    <div class="menu-item-ultra">
+                        <div class="item-icon">🍫</div>
+                        <div class="item-text">
                             <h4>Brownie Gourmet</h4>
-                            <span class="menu-preco">R$ 18,90</span>
+                            <p>Brownie artesanal com chocolate belga</p>
                         </div>
-                        <p>Brownie artesanal com chocolate belga e nozes</p>
+                        <div class="item-price">R$ 18,90</div>
                     </div>
-                    <div class="menu-item">
-                        <div class="menu-item-header">
+
+                    <div class="menu-item-ultra">
+                        <div class="item-icon">🍮</div>
+                        <div class="item-text">
                             <h4>Pudim Caseiro</h4>
-                            <span class="menu-preco">R$ 15,90</span>
+                            <p>Pudim com calda de caramelo caseira</p>
                         </div>
-                        <p>Pudim tradicional com calda de caramelo caseira</p>
+                        <div class="item-price">R$ 15,90</div>
                     </div>
                 </div>
 
-                <div class="tab-content" id="personalizados">
-                    <div class="menu-item">
-                        <div class="menu-item-header">
-                            <h4>Bolo Personalizável</h4>
-                            <span class="menu-preco">Consulte</span>
+                <!-- PERSONALIZADOS -->
+                <div class="menu-tab-content" id="personalizados">
+                    <div class="menu-item-ultra">
+                        <div class="item-icon">🎨</div>
+                        <div class="item-text">
+                            <h4>Bolo Personalizado</h4>
+                            <p>Crie seu próprio bolo com tudo customizado</p>
                         </div>
-                        <p>Crie seu próprio bolo com sabor, tamanho e decoração personalizados</p>
+                        <div class="item-price">Consulte</div>
                     </div>
-                    <div class="menu-item">
-                        <div class="menu-item-header">
+
+                    <div class="menu-item-ultra">
+                        <div class="item-icon">🎂</div>
+                        <div class="item-text">
                             <h4>Torta Temática</h4>
-                            <span class="menu-preco">Consulte</span>
+                            <p>Para festas especiais com tema único</p>
                         </div>
-                        <p>Para festas especiais com decoração única e sabor à sua escolha</p>
+                        <div class="item-price">Consulte</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- DEPOIMENTOS -->
-    <section id="depoimentos" class="depoimentos">
+    <!-- SEÇÃO CONTATO ÉPICA -->
+    <section id="contato" class="contato-ultra">
         <div class="container">
-            <h2 class="section-title">O Que Nossos Clientes Dizem</h2>
-            <div class="depoimentos-container">
-                <div class="depoimento-card">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="depoimento-texto">"O bolo da Conect Cakes foi perfeito para minha festa! Todos elogiaram o sabor e a qualidade. Recomendo muito!"</p>
-                    <p class="depoimento-autor">- Maria Silva</p>
-                </div>
+            <h2 class="section-title-ultra">
+                <span class="title-blur">Fale Conosco</span>
+                <span class="title-main">Fale Conosco</span>
+            </h2>
 
-                <div class="depoimento-card">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="depoimento-texto">"Entrega rápida, bolo delicioso e decoração elegante. A Conect Cakes superou minhas expectativas!"</p>
-                    <p class="depoimento-autor">- João Santos</p>
-                </div>
-
-                <div class="depoimento-card">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="depoimento-texto">"Que confeitaria maravilhosa! Os sabores são únicos e a equipe é muito atenciosa. Com certeza vou pedir novamente."</p>
-                    <p class="depoimento-autor">- Ana Costa</p>
-                </div>
-
-                <div class="depoimento-card">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="depoimento-texto">"Bolos personalizados com qualidade premium. A Conect Cakes é a melhor opção para eventos especiais!"</p>
-                    <p class="depoimento-autor">- Pedro Oliveira</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROCESSO -->
-    <section class="processo">
-        <div class="container">
-            <h2 class="section-title">Como Funciona</h2>
-            <div class="processo-steps">
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <h3>1. Contato</h3>
-                    <p>Entre em contato conosco para conhecer nossos sabores</p>
-                </div>
-
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h3>2. Pedido</h3>
-                    <p>Escolha o sabor, tamanho e decoração desejada</p>
-                </div>
-
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <h3>3. Preparação</h3>
-                    <p>Nossos confeiteiros preparam com esmero</p>
-                </div>
-
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <h3>4. Entrega</h3>
-                    <p>Entregamos no local e hora desejados</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTATO -->
-    <section id="contato" class="contato">
-        <div class="container">
-            <h2 class="section-title">Fale Conosco</h2>
-            <div class="contato-content">
-                <div class="contato-info">
-                    <div class="info-card">
-                        <i class="fas fa-phone"></i>
+            <div class="contato-wrapper">
+                <div class="contact-info-ultra">
+                    <div class="info-card-ultra">
+                        <div class="info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
                         <h3>Telefone</h3>
                         <p>(11) 99999-9999</p>
                     </div>
-                    <div class="info-card">
-                        <i class="fas fa-envelope"></i>
+
+                    <div class="info-card-ultra">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
                         <h3>Email</h3>
                         <p>contato@conectcakes.com.br</p>
                     </div>
-                    <div class="info-card">
-                        <i class="fas fa-map-marker-alt"></i>
+
+                    <div class="info-card-ultra">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
                         <h3>Localização</h3>
                         <p>São Paulo, SP</p>
                     </div>
-                    <div class="info-card">
-                        <i class="fas fa-clock"></i>
+
+                    <div class="info-card-ultra">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
                         <h3>Horário</h3>
-                        <p>Seg-Sex: 10h - 18h</p>
+                        <p>Seg-Sex: 10h - 22h</p>
                     </div>
                 </div>
 
-                <form class="contato-form" id="formulario">
-                    <div class="form-group">
-                        <input type="text" placeholder="Seu Nome" required>
+                <form class="contact-form-ultra" id="form-contato">
+                    <div class="form-group-ultra">
+                        <input type="text" placeholder="Nome completo" required>
+                        <span class="form-border"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Seu Email" required>
+                    <div class="form-group-ultra">
+                        <input type="email" placeholder="Seu email" required>
+                        <span class="form-border"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="tel" placeholder="Seu Telefone" required>
+                    <div class="form-group-ultra">
+                        <input type="tel" placeholder="Seu telefone" required>
+                        <span class="form-border"></span>
                     </div>
-                    <div class="form-group">
-                        <textarea placeholder="Sua Mensagem" rows="5" required></textarea>
+                    <div class="form-group-ultra">
+                        <textarea placeholder="Sua mensagem" rows="5" required></textarea>
+                        <span class="form-border"></span>
                     </div>
-                    <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                    <button type="submit" class="submit-btn-ultra">
+                        <span>Enviar Mensagem</span>
+                        <div class="btn-glow"></div>
+                    </button>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
+    <!-- FOOTER ÉPICO -->
+    <footer class="footer-ultra">
+        <div class="footer-background">
+            <div class="footer-glow"></div>
+        </div>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
+            <div class="footer-content-ultra">
+                <div class="footer-col">
                     <h4>Conect Cakes</h4>
-                    <p>Conectando sabor, arte e emoção em cada criação.</p>
+                    <p>Conectando sabor, arte e emoção em cada criação única.</p>
                 </div>
-                <div class="footer-section">
-                    <h4>Links Rápidos</h4>
+                <div class="footer-col">
+                    <h4>Links</h4>
                     <ul>
                         <li><a href="#inicio">Início</a></li>
                         <li><a href="#produtos">Produtos</a></li>
@@ -402,21 +495,22 @@
                         <li><a href="#contato">Contato</a></li>
                     </ul>
                 </div>
-                <div class="footer-section">
+                <div class="footer-col">
                     <h4>Redes Sociais</h4>
-                    <div class="social-links">
+                    <div class="social-icons-ultra">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Conect Cakes. Todos os direitos reservados.</p>
+            <div class="footer-bottom-ultra">
+                <p>&copy; 2024 Conect Cakes. Todos os direitos reservados. ✨</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script-ultra.js"></script>
 </body>
 </html>
