@@ -1,516 +1,694 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conect Cakes - Confeitaria Premium Ultra</title>
-    <link rel="stylesheet" href="styles-ultra.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NTEi Central — Chácara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+  :root{
+    --bg-deep:#0B1614;
+    --bg-surface:#12211F;
+    --bg-elevated:#1A2E2B;
+    --bg-elevated-2:#213834;
+    --line:#25403B;
+    --accent-teal:#3ED9C5;
+    --accent-teal-dim:#237267;
+    --accent-amber:#F6A835;
+    --text-cream:#EDEAE0;
+    --text-muted:#8FA39E;
+    --text-dim:#5D7570;
+    --danger:#E85C4A;
+    --warning:#F0B429;
+    --info:#4FA8D8;
+    --success:#4CAF7D;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg-deep);
+    color:var(--text-cream);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(62,217,197,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 110% 10%, rgba(246,168,53,0.06), transparent 60%);
+  }
+  h1,h2,h3,h4{font-family:'Sora',sans-serif; margin:0;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 32px;
+    background:rgba(11,22,20,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{
+    width:38px; height:38px; border-radius:10px;
+    background:linear-gradient(135deg, var(--accent-teal), var(--accent-teal-dim));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Sora',sans-serif; font-weight:800; color:#0B1614; font-size:16px;
+    box-shadow:0 0 24px rgba(62,217,197,0.35);
+  }
+  .brand-text{line-height:1.1;}
+  .brand-text .name{font-family:'Sora',sans-serif; font-weight:700; font-size:16px;}
+  .brand-text .sub{font-size:11px; color:var(--text-muted); letter-spacing:0.04em;}
+  .tabs{display:flex; gap:4px; background:var(--bg-surface); padding:4px; border-radius:12px; border:1px solid var(--line);}
+  .tab{
+    padding:9px 18px; border-radius:9px; font-size:13.5px; font-weight:600; color:var(--text-muted);
+    cursor:pointer; transition:all .2s; user-select:none; white-space:nowrap;
+  }
+  .tab:hover{color:var(--text-cream);}
+  .tab.active{background:var(--accent-teal); color:#0B1614;}
+  .nav-right{display:flex; align-items:center; gap:14px;}
+  .role-pill{
+    font-size:11.5px; padding:6px 12px; border-radius:999px; background:var(--bg-elevated);
+    border:1px solid var(--line); color:var(--text-muted); font-weight:500;
+  }
+  .avatar{
+    width:34px;height:34px;border-radius:50%;
+    background:linear-gradient(135deg,#F6A835,#E85C4A);
+    display:flex;align-items:center;justify-content:center;font-family:'Sora';font-weight:700;font-size:13px;color:#0B1614;
+  }
+
+  .view{display:none; padding:36px 32px 80px; max-width:1400px; margin:0 auto; animation:fadeIn .35s ease;}
+  .view.active{display:block;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  /* ===== PORTAL ===== */
+  .hero{
+    position:relative; padding:56px 40px; border-radius:20px; overflow:hidden;
+    background:linear-gradient(160deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
+    border:1px solid var(--line); margin-bottom:36px;
+  }
+  .hero::before{
+    content:''; position:absolute; inset:0; opacity:0.5;
+    background-image: repeating-linear-gradient(115deg, transparent, transparent 38px, rgba(62,217,197,0.05) 38px, rgba(62,217,197,0.05) 39px);
+  }
+  .hero-inner{position:relative; z-index:1;}
+  .eyebrow{font-size:12px; letter-spacing:0.12em; color:var(--accent-teal); font-weight:600; text-transform:uppercase; margin-bottom:10px;}
+  .hero h1{font-size:34px; font-weight:700; max-width:640px; line-height:1.25;}
+  .hero p{color:var(--text-muted); max-width:520px; margin-top:10px; font-size:15px; line-height:1.55;}
+  .search-box{
+    margin-top:28px; display:flex; align-items:center; gap:12px;
+    background:var(--bg-deep); border:1px solid var(--line); border-radius:14px; padding:16px 20px; max-width:640px;
+  }
+  .search-box input{
+    flex:1; background:none; border:none; outline:none; color:var(--text-cream); font-size:15px; font-family:'Inter';
+  }
+  .search-box input::placeholder{color:var(--text-dim);}
+  .search-icon{color:var(--text-muted); font-size:16px;}
+
+  .section-label{font-size:13px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin:32px 0 16px;}
+  .cat-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(190px,1fr)); gap:14px;}
+  .cat-card{
+    background:var(--bg-surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:20px; cursor:pointer; transition:all .18s ease; position:relative; overflow:hidden;
+  }
+  .cat-card:hover{transform:translateY(-3px); border-color:var(--accent-teal-dim); box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+  .cat-card .icon-badge{
+    width:42px;height:42px;border-radius:10px; display:flex; align-items:center; justify-content:center;
+    background:var(--bg-elevated); margin-bottom:14px; font-size:19px;
+  }
+  .cat-card h4{font-size:14.5px; font-weight:600; margin-bottom:5px;}
+  .cat-card .desc{font-size:12px; color:var(--text-muted); line-height:1.45;}
+  .cat-card .count{
+    position:absolute; top:16px; right:16px; font-size:11px; font-family:'JetBrains Mono';
+    color:var(--text-dim);
+  }
+
+  .my-tickets{margin-top:36px;}
+  .ticket-row{
+    display:flex; align-items:center; gap:16px; padding:14px 18px;
+    background:var(--bg-surface); border:1px solid var(--line); border-radius:12px; margin-bottom:8px;
+  }
+  .prio-dot{width:9px;height:9px;border-radius:50%; flex-shrink:0;}
+  .ticket-row .tid{font-family:'JetBrains Mono'; font-size:12px; color:var(--text-dim); width:78px;}
+  .ticket-row .ttitle{flex:1; font-size:14px; font-weight:500;}
+  .ticket-row .tmeta{font-size:12px; color:var(--text-muted);}
+  .status-chip{font-size:11px; padding:4px 10px; border-radius:999px; font-weight:600;}
+
+  /* ===== PAINEL TÉCNICO ===== */
+  .kpi-strip{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:28px;}
+  .kpi-card{
+    background:var(--bg-surface); border:1px solid var(--line); border-radius:var(--radius); padding:20px;
+  }
+  .kpi-card .label{font-size:11.5px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; font-weight:600;}
+  .kpi-card .value{font-family:'Sora'; font-size:30px; font-weight:700; margin-top:6px;}
+  .kpi-card.crit .value{color:var(--danger);}
+  .kpi-card.warn .value{color:var(--warning);}
+  .kpi-card.ok .value{color:var(--success);}
+  .kpi-card .sub{font-size:11.5px; color:var(--text-dim); margin-top:4px;}
+
+  .filter-bar{
+    background:var(--bg-surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 20px; margin-bottom:22px;
+  }
+  .filter-row{display:flex; align-items:center; gap:22px; flex-wrap:wrap;}
+  .filter-group{display:flex; align-items:center; gap:8px;}
+  .filter-group .flabel{font-size:11.5px; color:var(--text-dim); font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-right:2px;}
+  .chip{
+    padding:7px 14px; border-radius:999px; font-size:12.5px; font-weight:600; cursor:pointer;
+    border:1px solid var(--line); color:var(--text-muted); background:var(--bg-elevated); transition:all .15s;
+    user-select:none;
+  }
+  .chip:hover{border-color:var(--accent-teal-dim);}
+  .chip.on{color:#0B1614; border-color:transparent;}
+  .chip.crit.on{background:var(--danger); color:#fff;}
+  .chip.high.on{background:var(--warning);}
+  .chip.med.on{background:var(--info); color:#fff;}
+  .chip.low.on{background:var(--accent-teal-dim); color:#fff;}
+  .chip.school.on, .chip.type.on{background:var(--accent-teal);}
+  select.filter-select{
+    background:var(--bg-elevated); border:1px solid var(--line); color:var(--text-cream);
+    padding:8px 12px; border-radius:10px; font-size:12.5px; font-family:'Inter'; outline:none;
+  }
+  .clear-filters{font-size:12px; color:var(--accent-teal); cursor:pointer; font-weight:600; margin-left:auto;}
+
+  .table-wrap{background:var(--bg-surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  table{width:100%; border-collapse:collapse;}
+  th{
+    text-align:left; padding:12px 18px; font-size:11px; color:var(--text-dim); text-transform:uppercase;
+    letter-spacing:0.05em; border-bottom:1px solid var(--line); font-weight:600;
+  }
+  td{padding:13px 18px; font-size:13.5px; border-bottom:1px solid var(--line);}
+  tr:last-child td{border-bottom:none;}
+  tr.trow:hover{background:var(--bg-elevated);}
+  .prio-badge{
+    display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700;
+    padding:4px 10px; border-radius:999px;
+  }
+  .prio-badge.crit{background:rgba(232,92,74,0.15); color:var(--danger);}
+  .prio-badge.high{background:rgba(240,180,41,0.15); color:var(--warning);}
+  .prio-badge.med{background:rgba(79,168,216,0.15); color:var(--info);}
+  .prio-badge.low{background:rgba(62,217,197,0.15); color:var(--accent-teal);}
+  .empty-state{padding:60px 20px; text-align:center; color:var(--text-dim); font-size:13.5px;}
+
+  /* ===== MAPA ===== */
+  .map-wrap{
+    position:relative; border-radius:var(--radius); overflow:hidden; border:1px solid var(--line);
+    height:600px; background:radial-gradient(circle at 50% 40%, #0F2320 0%, #081210 100%);
+  }
+  #mapCanvas{width:100%; height:100%; display:block;}
+  .map-legend{
+    position:absolute; bottom:18px; left:18px; background:rgba(11,22,20,0.85); backdrop-filter:blur(8px);
+    border:1px solid var(--line); border-radius:12px; padding:14px 18px; font-size:12px;
+  }
+  .legend-row{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
+  .legend-row:last-child{margin-bottom:0;}
+  .legend-dot{width:9px;height:9px;border-radius:50%;}
+  .map-hint{
+    position:absolute; top:18px; left:18px; background:rgba(11,22,20,0.85); backdrop-filter:blur(8px);
+    border:1px solid var(--line); border-radius:12px; padding:12px 16px; font-size:12px; color:var(--text-muted); max-width:220px;
+  }
+  .school-popup{
+    position:absolute; display:none; background:var(--bg-elevated); border:1px solid var(--accent-teal-dim);
+    border-radius:14px; padding:18px; min-width:230px; box-shadow:0 12px 32px rgba(0,0,0,0.5); z-index:10;
+  }
+  .school-popup .close{position:absolute; top:10px; right:12px; cursor:pointer; color:var(--text-dim); font-size:14px;}
+  .school-popup h4{font-size:15px; margin-bottom:2px;}
+  .school-popup .ward{font-size:11.5px; color:var(--text-muted); margin-bottom:12px;}
+  .popup-stat{display:flex; justify-content:space-between; font-size:12.5px; padding:5px 0; border-top:1px solid var(--line);}
+  .popup-stat .k{color:var(--text-muted);}
+</style>
 </head>
 <body>
-    <!-- CURSOR CUSTOMIZADO -->
-    <div class="cursor"></div>
-    <div class="cursor-blur"></div>
 
-    <!-- HEADER ÉPICO -->
-    <header class="navbar-ultra">
-        <div class="container">
-            <div class="navbar-content">
-                <div class="logo-3d">
-                    <div class="logo-box">
-                        <i class="fas fa-cake-candles"></i>
-                    </div>
-                    <span>Conect Cakes</span>
-                </div>
-                <nav class="nav-menu-ultra">
-                    <a href="#inicio" class="nav-link">
-                        <span>Início</span>
-                        <div class="underline"></div>
-                    </a>
-                    <a href="#produtos" class="nav-link">
-                        <span>Produtos</span>
-                        <div class="underline"></div>
-                    </a>
-                    <a href="#cardapio" class="nav-link">
-                        <span>Cardápio</span>
-                        <div class="underline"></div>
-                    </a>
-                    <a href="#experiencia" class="nav-link">
-                        <span>Experiência</span>
-                        <div class="underline"></div>
-                    </a>
-                    <a href="#contato" class="nav-link">
-                        <span>Contato</span>
-                        <div class="underline"></div>
-                    </a>
-                </nav>
-                <button class="mobile-menu-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- HERO 3D ÉPICO -->
-    <section id="inicio" class="hero-ultra">
-        <div class="hero-background-ultra">
-            <div class="blob blob-1"></div>
-            <div class="blob blob-2"></div>
-            <div class="blob blob-3"></div>
-            <canvas id="canvas-hero"></canvas>
-        </div>
-        
-        <div class="hero-content-ultra">
-            <div class="hero-text">
-                <h1 class="title-glitch" data-text="Conect Cakes">
-                    Conect Cakes
-                </h1>
-                <p class="subtitle-animated">
-                    <span class="word"><span class="letter">B</span><span class="letter">o</span><span class="letter">l</span><span class="letter">o</span><span class="letter">s</span></span>
-                    <span class="word"><span class="letter">A</span><span class="letter">r</span><span class="letter">t</span><span class="letter">e</span><span class="letter">s</span><span class="letter">a</span><span class="letter">n</span><span class="letter">a</span><span class="letter">i</span><span class="letter">s</span></span>
-                    <span class="word"><span class="letter">Q</span><span class="letter">u</span><span class="letter">e</span></span>
-                    <span class="word"><span class="letter">T</span><span class="letter">r</span><span class="letter">a</span><span class="letter">n</span><span class="letter">s</span><span class="letter">f</span><span class="letter">o</span><span class="letter">r</span><span class="letter">m</span><span class="letter">a</span><span class="letter">m</span></span>
-                </p>
-            </div>
-            
-            <div class="cta-button-group">
-                <button class="cta-button glowing-btn">
-                    <span>Explorar Agora</span>
-                    <div class="button-glow"></div>
-                </button>
-                <button class="cta-button secondary-btn">
-                    <span>Ver Portfólio</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-
-            <div class="scroll-indicator">
-                <div class="mouse"></div>
-                <span>Deslize para explorar</span>
-            </div>
-        </div>
-
-        <div class="floating-cards">
-            <div class="floating-card" style="--delay: 0s">
-                <span>🍰</span>
-                <p>Premium</p>
-            </div>
-            <div class="floating-card" style="--delay: 0.3s">
-                <span>✨</span>
-                <p>Artesanal</p>
-            </div>
-            <div class="floating-card" style="--delay: 0.6s">
-                <span>🎂</span>
-                <p>Gourmet</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- DIVISOR ÉPICO -->
-    <div class="epic-divider">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <defs>
-                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#FF69B4;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#FF1493;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <path d="M0,50 Q300,0 600,50 T1200,50 L1200,120 L0,120 Z" fill="url(#grad1)"></path>
-        </svg>
+<nav>
+  <div class="brand">
+    <div class="brand-mark">N</div>
+    <div class="brand-text">
+      <div class="name">NTEi Central</div>
+      <div class="sub">Chácara · Santana de Parnaíba</div>
     </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" data-view="portal">Portal</div>
+    <div class="tab" data-view="painel">Painel do Técnico</div>
+    <div class="tab" data-view="mapa">Mapa das Unidades</div>
+  </div>
+  <div class="nav-right">
+    <div class="role-pill" id="rolePill">Secretaria · EMEB Vila Rica</div>
+    <div class="avatar">KA</div>
+  </div>
+</nav>
 
-    <!-- SEÇÃO STATS 3D -->
-    <section class="stats-3d">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-3d-card" data-number="500">
-                    <div class="stat-number">500<span>+</span></div>
-                    <p>Bolos Criados</p>
-                    <div class="card-glow"></div>
-                </div>
-                <div class="stat-3d-card" data-number="98">
-                    <div class="stat-number">98<span>%</span></div>
-                    <p>Satisfação</p>
-                    <div class="card-glow"></div>
-                </div>
-                <div class="stat-3d-card" data-number="24">
-                    <div class="stat-number">24<span>h</span></div>
-                    <p>Entrega Rápida</p>
-                    <div class="card-glow"></div>
-                </div>
-                <div class="stat-3d-card" data-number="4.9">
-                    <div class="stat-number">4.9<span>⭐</span></div>
-                    <p>Avaliação</p>
-                    <div class="card-glow"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ===================== PORTAL ===================== -->
+<div class="view active" id="view-portal">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Suporte técnico educacional</div>
+      <h1>Como podemos ajudar você hoje?</h1>
+      <p>Abra um chamado para o NTEi Chácara e acompanhe o andamento em tempo real. Nossa equipe atende todas as unidades escolares de Santana de Parnaíba.</p>
+      <div class="search-box">
+        <span class="search-icon">⌕</span>
+        <input type="text" placeholder="Descreva o que você precisa, ex: 'Chromebook não liga na sala 4'">
+      </div>
+    </div>
+  </div>
 
-    <!-- SEÇÃO PRODUTOS 3D -->
-    <section id="produtos" class="produtos-3d">
-        <div class="container">
-            <h2 class="section-title-ultra">
-                <span class="title-blur">Nossos Destaques</span>
-                <span class="title-main">Nossos Destaques</span>
-            </h2>
-            
-            <div class="produtos-carousel-3d">
-                <div class="carousel-container">
-                    <div class="produto-3d-card" data-id="1">
-                        <div class="card-inner">
-                            <div class="card-image">
-                                <img src="https://via.placeholder.com/400x400/FF69B4/FFFFFF?text=Chocolate" alt="Chocolate">
-                                <div class="image-overlay"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="badge-premium">⭐ POPULAR</span>
-                                <h3>Bolo Chocolate Gourmet</h3>
-                                <p>Chocolate belga 70% com ganache cremosa</p>
-                                <div class="price-section">
-                                    <span class="price">R$ 89,90</span>
-                                    <button class="btn-add-cart">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  <div class="section-label">Categorias de atendimento</div>
+  <div class="cat-grid" id="catGrid"></div>
 
-                    <div class="produto-3d-card" data-id="2">
-                        <div class="card-inner">
-                            <div class="card-image">
-                                <img src="https://via.placeholder.com/400x400/FFB6C1/FFFFFF?text=Morango" alt="Morango">
-                                <div class="image-overlay"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="badge-new">✨ NOVO</span>
-                                <h3>Bolo Morango Deluxe</h3>
-                                <p>Morangos frescos com chantilly artesanal</p>
-                                <div class="price-section">
-                                    <span class="price">R$ 75,90</span>
-                                    <button class="btn-add-cart">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  <div class="my-tickets">
+    <div class="section-label">Meus chamados recentes</div>
+    <div id="myTicketsList"></div>
+  </div>
+</div>
 
-                    <div class="produto-3d-card" data-id="3">
-                        <div class="card-inner">
-                            <div class="card-image">
-                                <img src="https://via.placeholder.com/400x400/DDA0DD/FFFFFF?text=Pistache" alt="Pistache">
-                                <div class="image-overlay"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="badge-special">🔥 ESPECIAL</span>
-                                <h3>Bolo Pistache Elegante</h3>
-                                <p>Pistache siciliano com calda de caramelo</p>
-                                <div class="price-section">
-                                    <span class="price">R$ 95,90</span>
-                                    <button class="btn-add-cart">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- ===================== PAINEL TÉCNICO ===================== -->
+<div class="view" id="view-painel">
+  <div class="kpi-strip" id="kpiStrip"></div>
 
-                    <div class="produto-3d-card" data-id="4">
-                        <div class="card-inner">
-                            <div class="card-image">
-                                <img src="https://via.placeholder.com/400x400/CD853F/FFFFFF?text=Cafe" alt="Café">
-                                <div class="image-overlay"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="badge-premium">☕ REQUINTADO</span>
-                                <h3>Bolo Café Expresso</h3>
-                                <p>Café gourmet com calda de caramelo</p>
-                                <div class="price-section">
-                                    <span class="price">R$ 79,90</span>
-                                    <button class="btn-add-cart">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="filter-bar">
+    <div class="filter-row">
+      <div class="filter-group">
+        <span class="flabel">Prioridade</span>
+        <span class="chip crit" data-fkey="priority" data-fval="Crítica">Crítica</span>
+        <span class="chip high" data-fkey="priority" data-fval="Alta">Alta</span>
+        <span class="chip med" data-fkey="priority" data-fval="Média">Média</span>
+        <span class="chip low" data-fkey="priority" data-fval="Baixa">Baixa</span>
+      </div>
+      <div class="filter-group">
+        <span class="flabel">Escola</span>
+        <select class="filter-select" id="schoolFilter"><option value="">Todas</option></select>
+      </div>
+      <div class="filter-group">
+        <span class="flabel">Categoria</span>
+        <select class="filter-select" id="catFilter"><option value="">Todas</option></select>
+      </div>
+      <div class="filter-group">
+        <span class="flabel">SLA</span>
+        <span class="chip school" data-fkey="sla" data-fval="vencido">Vencido</span>
+        <span class="chip school" data-fkey="sla" data-fval="hoje">Vence hoje</span>
+      </div>
+      <div class="clear-filters" id="clearFilters">Limpar filtros</div>
+    </div>
+  </div>
 
-                <button class="carousel-nav prev">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="carousel-nav next">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </div>
-    </section>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Chamado</th><th>Escola</th><th>Categoria</th><th>Prioridade</th><th>Técnico</th><th>SLA</th><th>Status</th></tr>
+      </thead>
+      <tbody id="ticketTableBody"></tbody>
+    </table>
+    <div class="empty-state" id="emptyState" style="display:none;">Nenhum chamado corresponde aos filtros selecionados.</div>
+  </div>
+</div>
 
-    <!-- SEÇÃO EXPERIÊNCIA -->
-    <section id="experiencia" class="experiencia-section">
-        <div class="container">
-            <h2 class="section-title-ultra">
-                <span class="title-blur">Experiência Única</span>
-                <span class="title-main">Experiência Única</span>
-            </h2>
+<!-- ===================== MAPA ===================== -->
+<div class="view" id="view-mapa">
+  <div class="section-label" style="margin-top:0;">Mapa 3D · Unidades escolares de Santana de Parnaíba</div>
+  <div class="map-wrap">
+    <canvas id="mapCanvas"></canvas>
+    <div class="map-hint">Arraste para girar · Scroll para zoom · Clique num pino para ver os chamados da unidade</div>
+    <div class="map-legend">
+      <div class="legend-row"><span class="legend-dot" style="background:var(--danger);"></span> Chamado crítico em aberto</div>
+      <div class="legend-row"><span class="legend-dot" style="background:var(--warning);"></span> Prioridade alta</div>
+      <div class="legend-row"><span class="legend-dot" style="background:var(--accent-teal);"></span> Sem chamados críticos</div>
+    </div>
+    <div class="school-popup" id="schoolPopup">
+      <span class="close" id="popupClose">✕</span>
+      <h4 id="popSchoolName"></h4>
+      <div class="ward" id="popSchoolWard"></div>
+      <div class="popup-stat"><span class="k">Chamados abertos</span><span class="v" id="popOpen"></span></div>
+      <div class="popup-stat"><span class="k">Críticos</span><span class="v" id="popCrit"></span></div>
+      <div class="popup-stat"><span class="k">Técnico responsável</span><span class="v" id="popTech"></span></div>
+    </div>
+  </div>
+</div>
 
-            <div class="experiencia-grid">
-                <div class="exp-card">
-                    <div class="exp-icon">
-                        <i class="fas fa-wand-magic-sparkles"></i>
-                    </div>
-                    <h3>Criação Artesanal</h3>
-                    <p>Cada bolo é uma obra de arte criada com ingredientes premium e amor pelo detalhe.</p>
-                </div>
+<script>
+/* ============ MOCK DATA (substituir por leitura do Firebase no CONECT) ============ */
+const CATEGORIES = [
+  {id:'rede', name:'Rede e Wi-Fi', desc:'Conexão instável, sem sinal, cabeamento', icon:'📶'},
+  {id:'sistemas', name:'Sistemas Educacionais', desc:'SIGEM, Intranet, plataformas integradas', icon:'🖥️'},
+  {id:'equip', name:'Equipamentos', desc:'Computador, monitor, bateria, cabo VGA/HDMI', icon:'🖨️'},
+  {id:'acesso', name:'Acesso e Login', desc:'Senha, permissão, criação de usuário', icon:'🔑'},
+  {id:'chrome', name:'Chromebooks', desc:'Instalação, configuração, manutenção', icon:'💻'},
+  {id:'impressora', name:'Impressoras', desc:'Toner, driver, compartilhamento', icon:'🖨️'},
+  {id:'telefonia', name:'Telefonia / Ramal', desc:'PABX, ramal, telefone fixo', icon:'📞'},
+  {id:'pedagogico', name:'Suporte Pedagógico Digital', desc:'Sala de aula, projetor, lousa digital', icon:'📽️'},
+];
 
-                <div class="exp-card">
-                    <div class="exp-icon">
-                        <i class="fas fa-truck-fast"></i>
-                    </div>
-                    <h3>Entrega Express</h3>
-                    <p>Entrega em 24 horas com embalagem especial para manter a qualidade perfeita.</p>
-                </div>
+const SCHOOLS = [
+  {id:'s1', name:'EMEB Chácara', ward:'Chácara', x:-6, z:2, tech:'Kelvin Almeida'},
+  {id:'s2', name:'EMEB Vila Rica', ward:'Vila Rica', x:-2, z:-4, tech:'Kelvin Almeida'},
+  {id:'s3', name:'EMEF Alphaville', ward:'Alphaville', x:5, z:-6, tech:'Renata Souza'},
+  {id:'s4', name:'EMEB Colinas', ward:'Colinas de São Francisco', x:-8, z:-8, tech:'Renata Souza'},
+  {id:'s5', name:'EMEF Centro', ward:'Centro', x:0, z:0, tech:'Kelvin Almeida'},
+  {id:'s6', name:'EMEB Jardim Silveira', ward:'Jardim Silveira', x:7, z:3, tech:'Renata Souza'},
+  {id:'s7', name:'EMEF Fazendinha', ward:'Fazendinha', x:-4, z:6, tech:'Bruno Lima'},
+  {id:'s8', name:'EMEB Vale do Sol', ward:'Vale do Sol', x:3, z:7, tech:'Bruno Lima'},
+  {id:'s9', name:'EMEF Tamboré', ward:'Tamboré', x:9, z:-2, tech:'Bruno Lima'},
+];
 
-                <div class="exp-card">
-                    <div class="exp-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>Atendimento Premium</h3>
-                    <p>Equipe dedicada 24/7 para ajudar na escolha perfeita do seu bolo.</p>
-                </div>
+const TECHS = ['Kelvin Almeida','Renata Souza','Bruno Lima'];
+const PRIORITIES = ['Crítica','Alta','Média','Baixa'];
+const STATUSES = ['Aberto','Em atendimento','Aguardando peça','Resolvido'];
 
-                <div class="exp-card">
-                    <div class="exp-icon">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <h3>Personalização Total</h3>
-                    <p>Customize cores, sabores e decorações conforme sua imaginação.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+function seedTickets(){
+  const tickets = [];
+  let n = 1;
+  SCHOOLS.forEach(school=>{
+    const count = 4 + Math.floor(Math.random()*5);
+    for(let i=0;i<count;i++){
+      const cat = CATEGORIES[Math.floor(Math.random()*CATEGORIES.length)];
+      const prio = PRIORITIES[Math.floor(Math.random()* (Math.random()<0.15?1:PRIORITIES.length))];
+      const status = STATUSES[Math.floor(Math.random()*(STATUSES.length-1))];
+      const slaRand = Math.random();
+      tickets.push({
+        id: 'NT-'+String(1000+n).padStart(4,'0'),
+        title: cat.name + ' — ' + school.name.split(' ').slice(-1)[0],
+        school: school.name,
+        schoolId: school.id,
+        category: cat.name,
+        priority: prio,
+        tech: school.tech,
+        status: status,
+        sla: slaRand<0.12 ? 'vencido' : (slaRand<0.25 ? 'hoje' : 'ok'),
+      });
+      n++;
+    }
+  });
+  return tickets;
+}
+const TICKETS = seedTickets();
 
-    <!-- SEÇÃO CARDÁPIO INTERATIVO -->
-    <section id="cardapio" class="cardapio-ultra">
-        <div class="container">
-            <h2 class="section-title-ultra">
-                <span class="title-blur">Cardápio Premium</span>
-                <span class="title-main">Cardápio Premium</span>
-            </h2>
+/* ============ NAV / TABS ============ */
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('view-'+tab.dataset.view).classList.add('active');
+    if(tab.dataset.view==='mapa') setTimeout(initMapIfNeeded, 50);
+  });
+});
 
-            <div class="menu-tabs-ultra">
-                <button class="tab-btn-ultra active" data-tab="bolos">🍰 Bolos</button>
-                <button class="tab-btn-ultra" data-tab="cupcakes">🧁 Cupcakes</button>
-                <button class="tab-btn-ultra" data-tab="sobremesas">🍫 Sobremesas</button>
-                <button class="tab-btn-ultra" data-tab="personalizados">🎨 Personalizados</button>
-            </div>
+/* ============ PORTAL RENDER ============ */
+function renderCategories(){
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = CATEGORIES.map(c=>{
+    const openCount = TICKETS.filter(t=>t.category===c.name && t.status!=='Resolvido').length;
+    return `<div class="cat-card">
+      <div class="count">${openCount} abertos</div>
+      <div class="icon-badge">${c.icon}</div>
+      <h4>${c.name}</h4>
+      <div class="desc">${c.desc}</div>
+    </div>`;
+  }).join('');
+}
 
-            <div class="menu-items-container">
-                <!-- BOLOS -->
-                <div class="menu-tab-content active" id="bolos">
-                    <div class="menu-item-ultra">
-                        <div class="item-icon">🍫</div>
-                        <div class="item-text">
-                            <h4>Chocolate Gourmet</h4>
-                            <p>Chocolate belga 70% com ganache cremosa</p>
-                        </div>
-                        <div class="item-price">R$ 89,90</div>
-                    </div>
+function prioColor(p){
+  return p==='Crítica'?'var(--danger)': p==='Alta'?'var(--warning)': p==='Média'?'var(--info)':'var(--accent-teal)';
+}
+function statusChipStyle(s){
+  if(s==='Resolvido') return 'background:rgba(76,175,125,0.15); color:var(--success);';
+  if(s==='Em atendimento') return 'background:rgba(79,168,216,0.15); color:var(--info);';
+  if(s==='Aguardando peça') return 'background:rgba(240,180,41,0.15); color:var(--warning);';
+  return 'background:rgba(143,163,158,0.15); color:var(--text-muted);';
+}
 
-                    <div class="menu-item-ultra">
-                        <div class="item-icon">🍓</div>
-                        <div class="item-text">
-                            <h4>Morango Deluxe</h4>
-                            <p>Morangos frescos com chantilly artesanal</p>
-                        </div>
-                        <div class="item-price">R$ 75,90</div>
-                    </div>
+function renderMyTickets(){
+  const mine = TICKETS.filter(t=>t.school==='EMEB Vila Rica').slice(0,5);
+  document.getElementById('myTicketsList').innerHTML = mine.map(t=>`
+    <div class="ticket-row">
+      <span class="prio-dot" style="background:${prioColor(t.priority)}"></span>
+      <span class="tid mono">${t.id}</span>
+      <span class="ttitle">${t.title}</span>
+      <span class="tmeta">${t.category}</span>
+      <span class="status-chip" style="${statusChipStyle(t.status)}">${t.status}</span>
+    </div>
+  `).join('');
+}
 
-                    <div class="menu-item-ultra">
-                        <div class="item-icon">☕</div>
-                        <div class="item-text">
-                            <h4>Café Expresso</h4>
-                            <p>Café gourmet com calda de caramelo</p>
-                        </div>
-                        <div class="item-price">R$ 79,90</div>
-                    </div>
-                </div>
+/* ============ PAINEL TÉCNICO ============ */
+function renderKPIs(){
+  const total = TICKETS.filter(t=>t.status!=='Resolvido').length;
+  const crit = TICKETS.filter(t=>t.priority==='Crítica' && t.status!=='Resolvido').length;
+  const slaVencido = TICKETS.filter(t=>t.sla==='vencido').length;
+  const slaHoje = TICKETS.filter(t=>t.sla==='hoje').length;
+  const resolvidos = TICKETS.filter(t=>t.status==='Resolvido').length;
 
-                <!-- CUPCAKES -->
-                <div class="menu-tab-content" id="cupcakes">
-                    <div class="menu-item-ultra">
-                        <div class="item-icon">🍫</div>
-                        <div class="item-text">
-                            <h4>Cupcake Chocolate</h4>
-                            <p>Chocolate com ganache e confeitos</p>
-                        </div>
-                        <div class="item-price">R$ 12,90</div>
-                    </div>
+  const cards = [
+    {label:'Chamados abertos', value:total, sub:'em todas as unidades', cls:''},
+    {label:'Críticos', value:crit, sub:'requerem ação imediata', cls:'crit'},
+    {label:'SLA vencido', value:slaVencido, sub:'atrasados', cls:'crit'},
+    {label:'Vencendo hoje', value:slaHoje, sub:'atenção', cls:'warn'},
+    {label:'Resolvidos', value:resolvidos, sub:'nesta semana', cls:'ok'},
+  ];
+  document.getElementById('kpiStrip').innerHTML = cards.map(c=>`
+    <div class="kpi-card ${c.cls}">
+      <div class="label">${c.label}</div>
+      <div class="value">${c.value}</div>
+      <div class="sub">${c.sub}</div>
+    </div>
+  `).join('');
+}
 
-                    <div class="menu-item-ultra">
-                        <div class="item-icon">🍨</div>
-                        <div class="item-text">
-                            <h4>Cupcake Vanilla</h4>
-                            <p>Vanilla com cream cheese artesanal</p>
-                        </div>
-                        <div class="item-price">R$ 11,90</div>
-                    </div>
-                </div>
+function populateSelects(){
+  const schoolSel = document.getElementById('schoolFilter');
+  SCHOOLS.forEach(s=>{
+    const opt = document.createElement('option'); opt.value = s.name; opt.textContent = s.name;
+    schoolSel.appendChild(opt);
+  });
+  const catSel = document.getElementById('catFilter');
+  CATEGORIES.forEach(c=>{
+    const opt = document.createElement('option'); opt.value = c.name; opt.textContent = c.name;
+    catSel.appendChild(opt);
+  });
+}
 
-                <!-- SOBREMESAS -->
-                <div class="menu-tab-content" id="sobremesas">
-                    <div class="menu-item-ultra">
-                        <div class="item-icon">🍫</div>
-                        <div class="item-text">
-                            <h4>Brownie Gourmet</h4>
-                            <p>Brownie artesanal com chocolate belga</p>
-                        </div>
-                        <div class="item-price">R$ 18,90</div>
-                    </div>
+let activeFilters = {priority:new Set(), sla:new Set()};
 
-                    <div class="menu-item-ultra">
-                        <div class="item-icon">🍮</div>
-                        <div class="item-text">
-                            <h4>Pudim Caseiro</h4>
-                            <p>Pudim com calda de caramelo caseira</p>
-                        </div>
-                        <div class="item-price">R$ 15,90</div>
-                    </div>
-                </div>
+document.querySelectorAll('.chip[data-fkey]').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    const key = chip.dataset.fkey, val = chip.dataset.fval;
+    if(activeFilters[key].has(val)){ activeFilters[key].delete(val); chip.classList.remove('on'); }
+    else { activeFilters[key].add(val); chip.classList.add('on'); }
+    renderTickets();
+  });
+});
+document.getElementById('schoolFilter').addEventListener('change', renderTickets);
+document.getElementById('catFilter').addEventListener('change', renderTickets);
+document.getElementById('clearFilters').addEventListener('click', ()=>{
+  activeFilters = {priority:new Set(), sla:new Set()};
+  document.querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));
+  document.getElementById('schoolFilter').value='';
+  document.getElementById('catFilter').value='';
+  renderTickets();
+});
 
-                <!-- PERSONALIZADOS -->
-                <div class="menu-tab-content" id="personalizados">
-                    <div class="menu-item-ultra">
-                        <div class="item-icon">🎨</div>
-                        <div class="item-text">
-                            <h4>Bolo Personalizado</h4>
-                            <p>Crie seu próprio bolo com tudo customizado</p>
-                        </div>
-                        <div class="item-price">Consulte</div>
-                    </div>
+function renderTickets(){
+  const schoolVal = document.getElementById('schoolFilter').value;
+  const catVal = document.getElementById('catFilter').value;
 
-                    <div class="menu-item-ultra">
-                        <div class="item-icon">🎂</div>
-                        <div class="item-text">
-                            <h4>Torta Temática</h4>
-                            <p>Para festas especiais com tema único</p>
-                        </div>
-                        <div class="item-price">Consulte</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  let filtered = TICKETS.filter(t=>{
+    if(activeFilters.priority.size && !activeFilters.priority.has(t.priority)) return false;
+    if(activeFilters.sla.size && !activeFilters.sla.has(t.sla)) return false;
+    if(schoolVal && t.school!==schoolVal) return false;
+    if(catVal && t.category!==catVal) return false;
+    return true;
+  });
 
-    <!-- SEÇÃO CONTATO ÉPICA -->
-    <section id="contato" class="contato-ultra">
-        <div class="container">
-            <h2 class="section-title-ultra">
-                <span class="title-blur">Fale Conosco</span>
-                <span class="title-main">Fale Conosco</span>
-            </h2>
+  // ordering: crítica > alta > média > baixa, then SLA vencido first
+  const prioRank = {'Crítica':0,'Alta':1,'Média':2,'Baixa':3};
+  const slaRank = {'vencido':0,'hoje':1,'ok':2};
+  filtered.sort((a,b)=> (prioRank[a.priority]-prioRank[b.priority]) || (slaRank[a.sla]-slaRank[b.sla]) );
 
-            <div class="contato-wrapper">
-                <div class="contact-info-ultra">
-                    <div class="info-card-ultra">
-                        <div class="info-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <h3>Telefone</h3>
-                        <p>(11) 99999-9999</p>
-                    </div>
+  const tbody = document.getElementById('ticketTableBody');
+  const empty = document.getElementById('emptyState');
+  if(filtered.length===0){
+    tbody.innerHTML=''; empty.style.display='block'; return;
+  }
+  empty.style.display='none';
+  tbody.innerHTML = filtered.slice(0,60).map(t=>{
+    const prioClass = t.priority==='Crítica'?'crit': t.priority==='Alta'?'high': t.priority==='Média'?'med':'low';
+    const slaLabel = t.sla==='vencido' ? '<span style="color:var(--danger);font-weight:600;">Vencido</span>' : t.sla==='hoje' ? '<span style="color:var(--warning);font-weight:600;">Hoje</span>' : '<span style="color:var(--text-dim);">No prazo</span>';
+    return `<tr class="trow">
+      <td><span class="mono" style="color:var(--text-muted);">${t.id}</span><br><span style="font-weight:500;">${t.title}</span></td>
+      <td>${t.school}</td>
+      <td>${t.category}</td>
+      <td><span class="prio-badge ${prioClass}">${t.priority}</span></td>
+      <td>${t.tech}</td>
+      <td>${slaLabel}</td>
+      <td><span class="status-chip" style="${statusChipStyle(t.status)}">${t.status}</span></td>
+    </tr>`;
+  }).join('');
+}
 
-                    <div class="info-card-ultra">
-                        <div class="info-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h3>Email</h3>
-                        <p>contato@conectcakes.com.br</p>
-                    </div>
+/* ============ MAPA 3D ============ */
+let mapInitialized = false;
+function initMapIfNeeded(){
+  if(mapInitialized) return;
+  mapInitialized = true;
+  initMap3D();
+}
 
-                    <div class="info-card-ultra">
-                        <div class="info-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <h3>Localização</h3>
-                        <p>São Paulo, SP</p>
-                    </div>
+function initMap3D(){
+  const canvas = document.getElementById('mapCanvas');
+  const wrap = canvas.parentElement;
+  const width = wrap.clientWidth, height = wrap.clientHeight;
 
-                    <div class="info-card-ultra">
-                        <div class="info-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h3>Horário</h3>
-                        <p>Seg-Sex: 10h - 22h</p>
-                    </div>
-                </div>
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x081210, 0.028);
 
-                <form class="contact-form-ultra" id="form-contato">
-                    <div class="form-group-ultra">
-                        <input type="text" placeholder="Nome completo" required>
-                        <span class="form-border"></span>
-                    </div>
-                    <div class="form-group-ultra">
-                        <input type="email" placeholder="Seu email" required>
-                        <span class="form-border"></span>
-                    </div>
-                    <div class="form-group-ultra">
-                        <input type="tel" placeholder="Seu telefone" required>
-                        <span class="form-border"></span>
-                    </div>
-                    <div class="form-group-ultra">
-                        <textarea placeholder="Sua mensagem" rows="5" required></textarea>
-                        <span class="form-border"></span>
-                    </div>
-                    <button type="submit" class="submit-btn-ultra">
-                        <span>Enviar Mensagem</span>
-                        <div class="btn-glow"></div>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
+  const camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 200);
+  camera.position.set(0, 16, 22);
 
-    <!-- FOOTER ÉPICO -->
-    <footer class="footer-ultra">
-        <div class="footer-background">
-            <div class="footer-glow"></div>
-        </div>
-        <div class="container">
-            <div class="footer-content-ultra">
-                <div class="footer-col">
-                    <h4>Conect Cakes</h4>
-                    <p>Conectando sabor, arte e emoção em cada criação única.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Links</h4>
-                    <ul>
-                        <li><a href="#inicio">Início</a></li>
-                        <li><a href="#produtos">Produtos</a></li>
-                        <li><a href="#cardapio">Cardápio</a></li>
-                        <li><a href="#contato">Contato</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Redes Sociais</h4>
-                    <div class="social-icons-ultra">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fab fa-tiktok"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom-ultra">
-                <p>&copy; 2024 Conect Cakes. Todos os direitos reservados. ✨</p>
-            </div>
-        </div>
-    </footer>
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    <script src="script-ultra.js"></script>
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.minDistance = 8;
+  controls.maxDistance = 45;
+  controls.maxPolarAngle = Math.PI/2.15;
+  controls.target.set(0,0,0);
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0x3ED9C5, 0.35));
+  const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+  dir.position.set(10, 20, 6);
+  scene.add(dir);
+  const rim = new THREE.PointLight(0x3ED9C5, 0.6, 60);
+  rim.position.set(-10,10,-10);
+  scene.add(rim);
+
+  // Terrain (hilly, referencing Santana de Parnaíba's topography)
+  const size = 40, segments = 90;
+  const geo = new THREE.PlaneGeometry(size, size, segments, segments);
+  geo.rotateX(-Math.PI/2);
+  const pos = geo.attributes.position;
+  for(let i=0;i<pos.count;i++){
+    const x = pos.getX(i), z = pos.getZ(i);
+    const h = Math.sin(x*0.25)*1.1 + Math.cos(z*0.22)*1.1 + Math.sin((x+z)*0.15)*0.9 + Math.cos(x*0.4 - z*0.3)*0.4;
+    pos.setY(i, h);
+  }
+  geo.computeVertexNormals();
+  const terrainMat = new THREE.MeshStandardMaterial({color:0x123B34, roughness:0.95, metalness:0.05, wireframe:false});
+  const terrain = new THREE.Mesh(geo, terrainMat);
+  scene.add(terrain);
+
+  // wireframe overlay for topographic feel
+  const wireMat = new THREE.MeshBasicMaterial({color:0x3ED9C5, wireframe:true, transparent:true, opacity:0.06});
+  const wireMesh = new THREE.Mesh(geo, wireMat);
+  scene.add(wireMesh);
+
+  function terrainHeight(x,z){
+    return Math.sin(x*0.25)*1.1 + Math.cos(z*0.22)*1.1 + Math.sin((x+z)*0.15)*0.9 + Math.cos(x*0.4 - z*0.3)*0.4;
+  }
+
+  // School markers
+  const markers = [];
+  SCHOOLS.forEach(school=>{
+    const openTickets = TICKETS.filter(t=>t.schoolId===school.id && t.status!=='Resolvido');
+    const critCount = openTickets.filter(t=>t.priority==='Crítica').length;
+    const highCount = openTickets.filter(t=>t.priority==='Alta').length;
+    const color = critCount>0 ? 0xE85C4A : highCount>0 ? 0xF0B429 : 0x3ED9C5;
+    const h = terrainHeight(school.x, school.z);
+    const pillarHeight = 0.6 + Math.min(openTickets.length,10)*0.28;
+
+    const group = new THREE.Group();
+    group.position.set(school.x, h, school.z);
+
+    const pillarGeo = new THREE.CylinderGeometry(0.09, 0.09, pillarHeight, 10);
+    const pillarMat = new THREE.MeshStandardMaterial({color, emissive:color, emissiveIntensity:0.5, roughness:0.4});
+    const pillar = new THREE.Mesh(pillarGeo, pillarMat);
+    pillar.position.y = pillarHeight/2;
+    group.add(pillar);
+
+    const headGeo = new THREE.SphereGeometry(0.28, 16, 16);
+    const headMat = new THREE.MeshStandardMaterial({color, emissive:color, emissiveIntensity:0.9, roughness:0.3});
+    const head = new THREE.Mesh(headGeo, headMat);
+    head.position.y = pillarHeight + 0.15;
+    head.userData = {schoolId: school.id};
+    group.add(head);
+
+    const glowGeo = new THREE.SphereGeometry(0.5, 16, 16);
+    const glowMat = new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.25});
+    const glow = new THREE.Mesh(glowGeo, glowMat);
+    glow.position.y = pillarHeight + 0.15;
+    group.add(glow);
+
+    scene.add(group);
+    markers.push({group, head, glow, school, baseY: pillarHeight+0.15});
+  });
+
+  // Raycasting for click
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  const popup = document.getElementById('schoolPopup');
+
+  function onCanvasClick(event){
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = ((event.clientX-rect.left)/rect.width)*2-1;
+    mouse.y = -((event.clientY-rect.top)/rect.height)*2+1;
+    raycaster.setFromCamera(mouse, camera);
+    const heads = markers.map(m=>m.head);
+    const hits = raycaster.intersectObjects(heads);
+    if(hits.length>0){
+      const schoolId = hits[0].object.userData.schoolId;
+      const school = SCHOOLS.find(s=>s.id===schoolId);
+      const open = TICKETS.filter(t=>t.schoolId===schoolId && t.status!=='Resolvido');
+      const crit = open.filter(t=>t.priority==='Crítica').length;
+      document.getElementById('popSchoolName').textContent = school.name;
+      document.getElementById('popSchoolWard').textContent = 'Bairro: '+school.ward;
+      document.getElementById('popOpen').textContent = open.length;
+      document.getElementById('popCrit').textContent = crit;
+      document.getElementById('popTech').textContent = school.tech;
+      popup.style.display = 'block';
+      popup.style.left = Math.min(event.clientX-rect.left+16, rect.width-250)+'px';
+      popup.style.top = Math.max(event.clientY-rect.top-40,10)+'px';
+    } else {
+      popup.style.display='none';
+    }
+  }
+  canvas.addEventListener('click', onCanvasClick);
+  document.getElementById('popupClose').addEventListener('click', ()=> popup.style.display='none');
+
+  function animate(){
+    requestAnimationFrame(animate);
+    const t = performance.now()*0.002;
+    markers.forEach(m=>{
+      const pulse = Math.sin(t*2 + m.school.x) * 0.05;
+      m.head.position.y = m.baseY + pulse;
+      m.glow.position.y = m.baseY + pulse;
+      const s = 1 + Math.sin(t*2.5 + m.school.z)*0.15;
+      m.glow.scale.set(s,s,s);
+    });
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', ()=>{
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    camera.aspect = w/h; camera.updateProjectionMatrix();
+    renderer.setSize(w,h);
+  });
+}
+
+/* ============ INIT ============ */
+renderCategories();
+renderMyTickets();
+renderKPIs();
+populateSelects();
+renderTickets();
+</script>
 </body>
 </html>
